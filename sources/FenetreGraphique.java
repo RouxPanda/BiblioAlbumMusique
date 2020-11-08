@@ -22,8 +22,8 @@ public class FenetreGraphique extends JPanel {
     private JPanel Regroupe;
     private JPanel PannelRecherche;
     private JPanel PannelMontrage;
-    Album rien = new Album("Rien100Rien", "Jul", "2020", 15, 45, "F:/code/Java/Projet_java/src/image/rien100rien.jpg");
-    Album myworld = new Album("My World", "Jul", "2017", 15, 45, "F:/code/Java/Projet_java/src/image/My_World.jpg");
+    Album rien = new Album("Rien100Rien", "Jul", "2020", 15, 45, "image/rien100rien.jpg");
+    Album myworld = new Album("My World", "Jul", "2017", 15, 45, "image/My_World.jpg");
     Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", 15, 45, "F:/code/Java/Projet_java/src/image/cruel.jpg");
 
     FenetreGraphique(){
