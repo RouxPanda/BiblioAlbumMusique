@@ -23,4 +23,11 @@ public class Album {
         return image;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public String getArtiste() {
+        return artiste;
+    }
 }
