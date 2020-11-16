@@ -1,5 +1,5 @@
 # JavacJulAfon
-Projet étudiant pour les études
+Projet étudiant pour les études dans la matière M3105- Conception et programmation objet avancées
 
 # Sujet
 Gestion d'albums de musique
