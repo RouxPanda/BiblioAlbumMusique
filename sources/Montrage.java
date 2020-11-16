@@ -3,36 +3,83 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.TreeMap;
 import java.util.Vector;
 
-public class Montrage extends JPanel{
+public class Montrage extends JPanel implements ActionListener {
     private JPanel principal;
-    private JPanel Ptemp;
+    private JPanel Assemble;
+    private JPanel Header;
+    private JLabel Statue;
+    private JComboBox Trie;
+    private JButton Suppression;
+    private JButton Modifier;
+    private boolean recherche_active;
+    private boolean recherche_vide;
     private Album temp;
     private Vector<Album> test;
     private Vector<Album> voulu;
-    Album rien = new Album("Rien100Rien", "Jul", "2020", 15, 45, "./src/image/rien100rien.jpg");//
-    Album myworld = new Album("My World", "Jul", "2017", 15, 45, "./src/image/My_World.jpg");
-    Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", 15, 45, "./src/image/cruel.jpg");
+    Album rien = new Album("Rien100Rien", "Jul", "2019", "rap", "45", "https://images-na.ssl-images-amazon.com/images/I/61fFT2KEbAL.jpg");//
+    Album myworld = new Album("My World", "Jul", "2015", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/1b/46/74/7620123/1540-1/tsp20160205134438/My-world.jpg");
+    Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/29/94/ad/11375657/1540-1/tsp20190917101105/Ce-monde-est-cruel.jpg");
+    Album monument = new Album("Monument","Alkpote", "2019","rap","45","https://static.fnac-static.com/multimedia/Images/FR/NR/68/88/b0/11569256/1540-1/tsp20191125114100/Monument.jpg");
+    Album agartha = new Album("Agartha", "Vald", "2017", "rap", "66", "https://static.fnac-static.com/multimedia/Images/FR/NR/4b/e9/81/8513867/1540-1/tsp20161215132633/Agartha.jpg");
 
     public Montrage(){
+        recherche_active = false;
+        Assemble = new JPanel();
+        Assemble.setLayout(new BorderLayout());
+        Assemble.setBackground(Color.darkGray);
+
         principal = new JPanel();
         principal.setLayout(new CardLayout());
+
         test = new Vector<>();
-        test.add(cmec);test.add(rien);test.add(myworld);
+        test.add(rien);test.add(myworld);test.add(cmec);test.add(monument);test.add(agartha);
         //test.add(cmec);test.add(rien);test.add(myworld);test.add(cmec);test.add(rien);test.add(cmec);test.add(myworld);test.add(cmec);test.add(rien);test.add(myworld);
+
+        Statue = new JLabel();
+        Statue.setText("Accueil");
+        Statue.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        Statue.setForeground(Color.WHITE);
+
+        Border bord = new EmptyBorder(0,1,0,50);
+        Statue.setBorder(new CompoundBorder(bord,bord));
+
+        Trie = new JComboBox();
+        String s1[] = { "Titre", "Artiste", "Date"};
+        Trie = new JComboBox(s1);
+        Trie.setSelectedIndex(-1);
+        Trie.addActionListener(this);
+        Trie.addActionListener(this);
+
+        Header = new JPanel();
+        Header.setLayout(new FlowLayout());
+        Header.setBackground(Color.darkGray);
+
+        Header.add(Statue);
+        Header.add(Trie);
+
+        Assemble.add(Header, BorderLayout.PAGE_START);
+        Assemble.add(principal, BorderLayout.CENTER);
         voulu = new Vector<>();
+        principal.add(Accueil());
     }
 
     public JPanel getPrincipal() {
-        return principal;
+        return Assemble;
     }
 
     public JPanel SetLigne(){
@@ -74,29 +121,63 @@ public class Montrage extends JPanel{
         return PanelLigne;
     }
 
-    //0 Accueil
-    //1 Album
-    //2 Recherche
+    //1 Accueil
+    //2 Album
+    //3 Recherche
     public void ChangementPanel(int i){
         final CardLayout cl = (CardLayout)(principal.getLayout());
         switch(i) {
             case 1:
-                principal.add(Accueil());
+
                 break;
             case 2:
                 principal.add(AlbumPresentation(temp));
+                Statue.setText("");
+                Trie.setVisible(false);
                 cl.last(principal);
                 break;
             case 3:
-                principal.add(ToutAlbum(voulu));
+                JLabel pas = new JLabel();
+                if(recherche_vide) {
+                    JPanel vide = new JPanel();
+                    pas.setText("Aucun résultat");
+                    pas.setFont(new Font("Comic Sans",0,24));
+                    pas.setForeground(Color.lightGray);
+                    vide.setBackground(Color.darkGray);
+                    vide.add(pas);
+                    principal.add(vide);
+                }
+                else
+                    principal.add(ToutAlbum(voulu));
+                Statue.setText("Recherche");
                 cl.last(principal);
+                break;
         }
-
     }
 
     public void RetourArrière(){
+        System.out.println(principal.getComponentCount());
         final CardLayout cl = (CardLayout)(principal.getLayout());
-        //cl.removeLayoutComponent(Ptemp);
+        Trie.setVisible(true);
+
+        if(principal.getComponentCount()>1) {
+            if (principal.getComponentCount() == 2) {
+                Statue.setText("Accueil");
+                cl.first(principal);
+                recherche_active = false;
+            }
+            else {
+                Statue.setText("Recherche");
+                cl.previous(principal);
+            }
+            principal.remove(principal.getComponentCount() - 1);
+        }
+    }
+
+    public void Refresh(){
+        final CardLayout cl = (CardLayout)(principal.getLayout());
+        principal.remove(0);
+        principal.add(Accueil(),0);
         cl.first(principal);
     }
 
@@ -105,14 +186,25 @@ public class Montrage extends JPanel{
         PanelCard.setLayout(new BoxLayout(PanelCard,BoxLayout.Y_AXIS));
         PanelCard.setSize(new Dimension(200,250));
         Border bord = new EmptyBorder(1,1,1,1);
+
         JLabel titre = new JLabel();
         titre.setText(album.getNom());
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
         titre.setBorder(new CompoundBorder(bord,bord));
         titre.setFont(new Font("Comic Sans",0,15));
-        titre.setForeground(Color.lightGray);
-        PanelCard.add(ImageSource(album));
+        titre.setForeground(Color.white);
+
+        JLabel auteur = new JLabel();
+        auteur.setText(album.getArtiste());
+        auteur.setAlignmentX(Component.CENTER_ALIGNMENT);
+        auteur.setBorder(new CompoundBorder(bord,bord));
+        auteur.setFont(new Font("Comic Sans",0,12));
+        auteur.setForeground(Color.lightGray);
+        JLabel image = ImageURL(album);
+
+        PanelCard.add(image);
         PanelCard.add(titre);
+        PanelCard.add(auteur);
         PanelCard.setBackground(Color.darkGray);
 
         Border margin = new EmptyBorder(5, 8, 15, 8);
@@ -137,19 +229,23 @@ public class Montrage extends JPanel{
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
+            public void mouseEntered(MouseEvent e) {//Mouse survole. Noircir
+                Border line = new LineBorder(Color.white);
+                image.setBorder(line);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
+                image.setBorder(null);
             }
         });
         return PanelCard;
     }
 
     public JScrollPane Accueil(){
+        for (int i = 0; i < test.size(); i++) {
+            System.out.println(test.elementAt(i).getNom());
+        }
         return  ToutAlbum(test);
     }
 
@@ -184,6 +280,27 @@ public class Montrage extends JPanel{
     }
 
     public JPanel AlbumPresentation(Album album){
+        Border bord = new EmptyBorder(40,40,10,10);
+        Border bord2 = new EmptyBorder(40,0,10,10);
+
+        Suppression = new JButton();
+        Suppression.setText("Supprimer");
+        Suppression.setForeground(Color.WHITE);
+        Suppression.setBackground(Color.gray);
+        Suppression.setActionCommand("Supprimer");
+        Suppression.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Suppression.addActionListener(this);
+
+        Modifier = new JButton();
+        Modifier.setText("Modifier");
+        Modifier.setForeground(Color.WHITE);
+        Modifier.setBackground(Color.gray);
+        Modifier.setActionCommand("Modifier");
+        Modifier.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Modifier.addActionListener(this);
+
+        JLabel vide2 = new JLabel("   ");
+
         JPanel PreAlbum = new JPanel();
         PreAlbum.setBackground(Color.darkGray);
         PreAlbum.setLayout(new BorderLayout());
@@ -201,48 +318,118 @@ public class Montrage extends JPanel{
         artiste.setFont(new Font("TimesRoman", Font.PLAIN, 25));
         artiste.setForeground(Color.WHITE);
         artiste.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel date = new JLabel(album.getDate());
+        JLabel date = new JLabel(album.getDate()+" • ");
         date.setFont(new Font("TimesRoman", Font.PLAIN, 25));
-        date.setForeground(Color.WHITE);
+        date.setForeground(Color.lightGray);
         date.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel genre = new JLabel(album.getGenre()+" • ");
+        genre.setFont(new Font("TimesRoman", Font.PLAIN, 25));
+        genre.setForeground(Color.lightGray);
+        genre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel duree = new JLabel(album.getDuree()+ " minutes");
+        duree.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        duree.setForeground(Color.lightGray);
+        duree.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel ligne = new JPanel();
+        ligne.setLayout(new FlowLayout());
+        ligne.setBackground(Color.darkGray);
+        ligne.add(date);
+        ligne.add(genre);
+        ligne.add(duree);
 
         JPanel info = new JPanel();
+        info.setBorder(bord2);
         info.setLayout(new BoxLayout(info,BoxLayout.Y_AXIS));
         info.setBackground(Color.darkGray);
         info.add(titre);
         info.add(vide);
         info.add(artiste);
-        info.add(date);
+        info.add(ligne);
 
-        head.add(ImageSource(album), BorderLayout.LINE_START);
+        JLabel image = ImageURL(album);
+        image.setBorder(bord);
+        head.add(image, BorderLayout.LINE_START);
         head.add(info,BorderLayout.CENTER);
 
-        JScrollPane scrool = new JScrollPane();
+        JPanel bouton = new JPanel();
+        bouton.setLayout(new BoxLayout(bouton,BoxLayout.Y_AXIS));
+        bouton.add(Modifier);
+        bouton.add(vide2);
+        bouton.add(Suppression);
+        bouton.setBorder(bord2);
+        bouton.setBackground(Color.darkGray);
+        head.add(bouton, BorderLayout.LINE_END);
+
+        //JScrollPane scrool = new JScrollPane();
+        JPanel scrool = new JPanel();
+        scrool.setBackground(Color.darkGray);
         PreAlbum.add(head, BorderLayout.PAGE_START);
         PreAlbum.add(scrool, BorderLayout.CENTER);
-        System.out.println("Changer");
         return PreAlbum;
     }
 
     public void Recherche(String recherche){
         voulu.clear();
         voulu = Filtrage(recherche);
+        recherche_active = true;
+        if(voulu.size() == 0)
+            recherche_vide = true;
+        else{
+            recherche_vide = false;
+        }
         ChangementPanel(3);
     }
 
     public Vector<Album> Filtrage(String recherche){
-        System.out.println(recherche);
-        String [] splitRecherche = recherche.split(" ");
         Vector<Album> Stock = new Vector<>();
-        for (int i = 0; i < splitRecherche.length; i++) { //Nombre de mot dans la recherche
-            for (int u = 0; u < test.size(); u++) { //Pour tout les albums présent
-                if(test.elementAt(u).getNom().toLowerCase().contains(splitRecherche[i].toLowerCase()))
-                        Stock.add(test.elementAt(u));
-
-            }
+        for (int u = 0; u < test.size(); u++) { //Pour tout les albums présent
+            if(test.elementAt(u).getNom().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(test.elementAt(u));
+            if(test.elementAt(u).getGenre().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(test.elementAt(u));
+            if(test.elementAt(u).getArtiste().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(test.elementAt(u));
         }
-        System.out.println(Stock.size());
         return Stock;
+    }
+
+    public void Ajout(Album album){
+        test.add(album);
+        Refresh();
+    }
+
+    public void Modifier(Album album){
+        System.out.println("Pute");
+        for (int i = 0; i < test.size(); i++) {
+            if (temp.getNom() == test.elementAt(i).getNom() /*&& temp.getArtiste() == test.elementAt(i).getArtiste()*/)
+                test.set(i,album);
+        }
+        Refresh();
+        RetourArrière();
+    }
+
+    public void TriePar(String choix){
+        Vector<Album> Retour = new Vector<>();
+        if (recherche_active)
+            Retour = voulu;
+        else
+            Retour = test;
+
+        if (choix == "Titre"){
+            Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
+        }
+        else if (choix == "Artiste"){
+            Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
+            Retour.sort(Comparator.comparing(Album::getArtiste,String.CASE_INSENSITIVE_ORDER));
+        }
+        else if (choix == "Date"){
+            Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
+            Retour.sort(Comparator.comparing(Album::getDate,String.CASE_INSENSITIVE_ORDER));
+        }
+
+        test = Retour;
+        Refresh();
     }
 
     public JLabel ImageURL(Album album){
@@ -273,6 +460,29 @@ public class Montrage extends JPanel{
         image.setIcon(icon);
         image.setAlignmentX(Component.CENTER_ALIGNMENT);
         return image;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("Supprimer")) {
+            if (JOptionPane.showConfirmDialog(Montrage.this, "Désirez-vous supprimer cet album ?")
+                    == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < test.size(); i++) {
+                    if (temp.getNom() == test.elementAt(i).getNom() && temp.getArtiste() == test.elementAt(i).getArtiste())
+                        test.remove(i);
+                }
+                Refresh();
+                RetourArrière();
+            }
+        }
+        else if(e.getActionCommand().equals("Modifier")){
+            Modifier modifier = new Modifier(this,temp);
+        }
+        else {
+            JComboBox cb = (JComboBox) e.getSource();
+            String petName = (String) cb.getSelectedItem();
+            if (cb.getSelectedIndex() != -1)
+                TriePar(petName);
+        }
     }
 }
 

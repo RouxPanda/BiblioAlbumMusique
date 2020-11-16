@@ -1,4 +1,3 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -7,12 +6,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class FenetreGraphique extends JFrame implements ActionListener {
     JFrame fenetre;
@@ -20,14 +16,13 @@ public class FenetreGraphique extends JFrame implements ActionListener {
     private JTextField BarRecherche;
     private JButton Valider;
     private JButton MesAlbums;
-    private JButton MesArtistes;
-    private JButton MesPlaylists;
+    private JButton Ajouter;
+    private JButton Supprimer;
     private JButton Retour;
-    private JComboBox comboBox1;
     private JPanel PanelMenu;
     private JPanel Regroupe;
     private JPanel PannelRecherche;
-    private JPanel PannelMontrage;
+    private Ajouter ajouter;
     private Montrage montrage;
 
     FenetreGraphique(){
@@ -71,7 +66,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
 
         JPanel PannelMontrage = new JPanel();
         PannelMontrage.setLayout(new BorderLayout());
-        montrage.ChangementPanel(1);
+        //montrage.ChangementPanel(1);
         PannelMontrage.add(montrage.getPrincipal());
 
         Regroupe.add(PannelMontrage, BorderLayout.CENTER);
@@ -94,23 +89,25 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         PanelMenu.add(MesAlbums, gbc);
 
-        MesArtistes = new JButton();
-        MesArtistes.setText("Mes Artistes");
-        TransformButton(MesArtistes);
+        Ajouter = new JButton();
+        Ajouter.setText("Ajouter");
+        Ajouter.setActionCommand("Ajouter");
+        Ajouter.addActionListener(this);
+        TransformButton(Ajouter);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        PanelMenu.add(MesArtistes, gbc);
+        PanelMenu.add(Ajouter, gbc);
 
-        MesPlaylists = new JButton();
-        MesPlaylists.setText("Mes Playlists");
-        TransformButton(MesPlaylists);
+        Supprimer = new JButton();
+        Supprimer.setText("Supprimer");
+        TransformButton(Supprimer);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        PanelMenu.add(MesPlaylists, gbc);
+        PanelMenu.add(Supprimer, gbc);
 
         Retour = new JButton();
         Retour.setText("Retour");
@@ -144,11 +141,16 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         PanelMenu.add(label4, gbc);
-        Border bord = new EmptyBorder(0,4,220,4);
+        Border bord = new EmptyBorder(0,4,160,4);
         PanelMenu.setBorder(new CompoundBorder(bord,bord));
 
         fenetre.add(Central);
         fenetre.setVisible(true);
+
+    }
+
+    public void AjouterUnAlbum(Album album){
+        montrage.Ajout(album);
     }
 
     JButton TransformButton(JButton bouton){
@@ -165,10 +167,26 @@ public class FenetreGraphique extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent evenement){
         if(evenement.getActionCommand().equals("Retour"))
             montrage.RetourArrière();
+        if(evenement.getActionCommand().equals("Ajouter")){
+            ajouter = new Ajouter(this);
+        }
         if(evenement.getActionCommand().equals("Valider")){
             String recherche = BarRecherche.getText();
+            String magic = "Le J c'est le S";
             if(!recherche.isEmpty())
                 montrage.Recherche(recherche);
+            if(recherche.toLowerCase().contains(magic.toLowerCase())) {
+                Desktop desktop = java.awt.Desktop.getDesktop();
+                try {
+                    //specify the protocol along with the URL
+                    URI oURL = new URI(
+                            "https://www.youtube.com/watch?v=-CVn3-3g_BI");
+                    desktop.browse(oURL);
+                } catch (URISyntaxException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
