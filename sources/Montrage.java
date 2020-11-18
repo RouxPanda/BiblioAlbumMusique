@@ -31,6 +31,7 @@ public class Montrage extends JPanel implements ActionListener {
     private Album temp;
     private Vector<Album> test;
     private Vector<Album> voulu;
+    private Bibliotheque biblio;
     Album rien = new Album("Rien100Rien", "Jul", "2019", "rap", "45", "https://images-na.ssl-images-amazon.com/images/I/61fFT2KEbAL.jpg");//
     Album myworld = new Album("My World", "Jul", "2015", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/1b/46/74/7620123/1540-1/tsp20160205134438/My-world.jpg");
     Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/29/94/ad/11375657/1540-1/tsp20190917101105/Ce-monde-est-cruel.jpg");
@@ -46,6 +47,7 @@ public class Montrage extends JPanel implements ActionListener {
         principal = new JPanel();
         principal.setLayout(new CardLayout());
 
+        biblio = new Bibliotheque();
         test = new Vector<>();
         test.add(rien);test.add(myworld);test.add(cmec);test.add(monument);test.add(agartha);
         //test.add(cmec);test.add(rien);test.add(myworld);test.add(cmec);test.add(rien);test.add(cmec);test.add(myworld);test.add(cmec);test.add(rien);test.add(myworld);
@@ -243,10 +245,10 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     public JScrollPane Accueil(){
-        for (int i = 0; i < test.size(); i++) {
-            System.out.println(test.elementAt(i).getNom());
+        for (int i = 0; i < biblio.getTabalbum().size(); i++) {
+            System.out.println(biblio.getTabalbum().elementAt(i).getNom());
         }
-        return  ToutAlbum(test);
+        return  ToutAlbum(biblio.getTabalbum());
     }
 
     public JScrollPane ToutAlbum(Vector<Album> liste){
@@ -383,27 +385,27 @@ public class Montrage extends JPanel implements ActionListener {
 
     public Vector<Album> Filtrage(String recherche){
         Vector<Album> Stock = new Vector<>();
-        for (int u = 0; u < test.size(); u++) { //Pour tout les albums présent
-            if(test.elementAt(u).getNom().toLowerCase().contains(recherche.toLowerCase()))
-                Stock.add(test.elementAt(u));
-            if(test.elementAt(u).getGenre().toLowerCase().contains(recherche.toLowerCase()))
-                Stock.add(test.elementAt(u));
-            if(test.elementAt(u).getArtiste().toLowerCase().contains(recherche.toLowerCase()))
-                Stock.add(test.elementAt(u));
+        for (int u = 0; u < biblio.getTabalbum().size(); u++) { //Pour tout les albums présent
+            if(biblio.getTabalbum().elementAt(u).getNom().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
+            if(biblio.getTabalbum().elementAt(u).getGenre().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
+            if(biblio.getTabalbum().elementAt(u).getArtiste().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
         }
         return Stock;
     }
 
     public void Ajout(Album album){
-        test.add(album);
+        biblio.getTabalbum().add(album);
         Refresh();
     }
 
     public void Modifier(Album album){
         System.out.println("Pute");
-        for (int i = 0; i < test.size(); i++) {
-            if (temp.getNom() == test.elementAt(i).getNom() /*&& temp.getArtiste() == test.elementAt(i).getArtiste()*/)
-                test.set(i,album);
+        for (int i = 0; i < biblio.getTabalbum().size(); i++) {
+            if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() /*&& temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()*/)
+                biblio.getTabalbum().set(i,album);
         }
         Refresh();
         RetourArrière();
@@ -466,9 +468,9 @@ public class Montrage extends JPanel implements ActionListener {
         if(e.getActionCommand().equals("Supprimer")) {
             if (JOptionPane.showConfirmDialog(Montrage.this, "Désirez-vous supprimer cet album ?")
                     == JOptionPane.YES_OPTION) {
-                for (int i = 0; i < test.size(); i++) {
-                    if (temp.getNom() == test.elementAt(i).getNom() && temp.getArtiste() == test.elementAt(i).getArtiste())
-                        test.remove(i);
+                for (int i = 0; i < biblio.getTabalbum().size(); i++) {
+                    if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() && temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste())
+                        biblio.getTabalbum().remove(i);
                 }
                 Refresh();
                 RetourArrière();
