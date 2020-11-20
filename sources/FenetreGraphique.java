@@ -10,21 +10,61 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * The type Fenetre graphique.
+ */
 public class FenetreGraphique extends JFrame implements ActionListener {
+    /**
+     * La fenetre principal
+     */
     JFrame fenetre;
+    /**
+     * Le panel central pris par Montrage
+     */
     private JPanel Central;
+    /**
+     * La Bar de recherche.
+     */
     private JTextField BarRecherche;
+    /**
+     * Le bouton Valider.
+     */
     private JButton Valider;
-    private JButton MesAlbums;
+    /**
+     * Le bouton Ajouter.
+     */
     private JButton Ajouter;
-    private JButton Supprimer;
+    /**
+     * Le bouton Retour.
+     */
     private JButton Retour;
+    /**
+     * The Panel menu à droite
+     */
     private JPanel PanelMenu;
+    /**
+     * The Regroupe.
+     */
     private JPanel Regroupe;
+    /**
+     * The Pannel recherche en haut
+     */
     private JPanel PannelRecherche;
+    /**
+     * La classe ajouter qui lance une nouvelle fenêtre formulaire pour l'ajout d'album
+     */
     private Ajouter ajouter;
+    /**
+     * La classe Montrage qui s'occupe de tout l'affichage
+     */
     private Montrage montrage;
 
+
+    /**
+     * Instantiates a new Fenetre graphique.
+     * <p>
+     * Toutes l'interface autour haut et gauche et l'instance de Montrage qui affiche la fenêtre centrale
+     */
     FenetreGraphique(){
         //Initialisation
         fenetre = new JFrame("Bibliothèque");
@@ -44,7 +84,6 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         Central.add(Regroupe, BorderLayout.CENTER);
 
         montrage = new Montrage();
-
 
         //La barre de recherche
         PannelRecherche = new JPanel();
@@ -78,16 +117,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         PanelMenu.setLayout(new GridBagLayout());
         PanelMenu.setBackground(Color.darkGray);
 
-        Central.add(PanelMenu, BorderLayout.WEST);
-        MesAlbums = new JButton();
-        MesAlbums.setText("Mes Albums");
-        TransformButton(MesAlbums);
         GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        PanelMenu.add(MesAlbums, gbc);
 
         Ajouter = new JButton();
         Ajouter.setText("Ajouter");
@@ -96,18 +126,9 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         TransformButton(Ajouter);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         PanelMenu.add(Ajouter, gbc);
-
-        Supprimer = new JButton();
-        Supprimer.setText("Supprimer");
-        TransformButton(Supprimer);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        PanelMenu.add(Supprimer, gbc);
 
         Retour = new JButton();
         Retour.setText("Retour");
@@ -116,7 +137,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         TransformButton(Retour);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         PanelMenu.add(Retour, gbc);
 
@@ -127,20 +148,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
         PanelMenu.add(label2, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("     ");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        PanelMenu.add(label3, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("     ");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.anchor = GridBagConstraints.WEST;
-        PanelMenu.add(label4, gbc);
+
         Border bord = new EmptyBorder(0,4,160,4);
         PanelMenu.setBorder(new CompoundBorder(bord,bord));
 
@@ -149,10 +157,21 @@ public class FenetreGraphique extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Ajouter un album. La fonction utiliser pour la classe Ajouter
+     *
+     * @param album the album
+     */
     public void AjouterUnAlbum(Album album){
         montrage.Ajout(album);
     }
 
+    /**
+     * Transform button j button. Pour répondre aux criteres de beauté de l'interface
+     *
+     * @param bouton le button qui doit être retourner
+     * @return le bouton modifier
+     */
     JButton TransformButton(JButton bouton){
         Border line = new LineBorder(Color.WHITE);
         Border margin = new EmptyBorder(5, 15, 5, 15);
