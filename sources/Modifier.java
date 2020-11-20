@@ -100,7 +100,7 @@ public class Modifier extends JDialog implements ActionListener {
                 else {
                     if (image.isEmpty())
                         image = "https://images-eu.ssl-images-amazon.com/images/I/61SGCYpjz-L._AC_UL600_SR597,600_.jpg";
-                    ajout = new Album(titre, artiste, annee, album.getGenre(), duree, image);
+                    ajout = new Album(titre, artiste, annee, album.getGenre(), album.getNb_pistes(), duree, image);
                     fenetre_principal.Modifier(ajout);
                     fenetre_ajouter.dispose();
                 }

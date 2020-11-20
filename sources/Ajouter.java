@@ -16,6 +16,7 @@ public class Ajouter extends JDialog implements ActionListener {
     private JTextField txtTitre;
     private JTextField txtArtiste;
     private JTextField txtAnnee;
+    private JTextField txtNbpiste;
     private JTextField txtDuree;
     private JTextField txtImage;
     private JComboBox txtGenre;
@@ -27,6 +28,7 @@ public class Ajouter extends JDialog implements ActionListener {
         txtTitre = new JTextField(10);
         txtArtiste = new JTextField(10);
         txtAnnee = new JTextField(10);
+        txtNbpiste = new JTextField(10);
         txtDuree = new JTextField(10);
         txtImage = new JTextField(10);
         txtGenre = new JComboBox();
@@ -46,6 +48,10 @@ public class Ajouter extends JDialog implements ActionListener {
         lblAnnee.setDisplayedMnemonic('V');
         lblAnnee.setLabelFor(txtAnnee);
 
+        JLabel lblNbpiste = new JLabel("Nombre de piste", JLabel.RIGHT);
+        lblAnnee.setDisplayedMnemonic('V');
+        lblAnnee.setLabelFor(txtNbpiste);
+
         JLabel lblGenre = new JLabel("Genre", JLabel.RIGHT);
         lblGenre.setDisplayedMnemonic('V');
         lblGenre.setLabelFor(txtGenre);
@@ -64,13 +70,15 @@ public class Ajouter extends JDialog implements ActionListener {
         Valider.addActionListener(this);
 
         JPanel p = new JPanel( );
-        p.setLayout(new GridLayout(7, 4, 7, 9));
+        p.setLayout(new GridLayout(8, 4, 8, 9));
         p.add(lblTitre);
         p.add(txtTitre);
         p.add(lblArtiste);
         p.add(txtArtiste);
         p.add(lblAnnee);
         p.add(txtAnnee);
+        p.add(lblNbpiste);
+        p.add(txtNbpiste);
         p.add(lblGenre);
         p.add(txtGenre);
         p.add(lblDuree);
@@ -92,6 +100,7 @@ public class Ajouter extends JDialog implements ActionListener {
             String titre = txtTitre.getText();
             String artiste = txtArtiste.getText();
             String annee = txtAnnee.getText();
+            String nbpiste = txtNbpiste.getText();
             String duree = txtDuree.getText();
             String image = txtImage.getText();
             String genre = txtGenre.getSelectedItem().toString();
@@ -103,8 +112,9 @@ public class Ajouter extends JDialog implements ActionListener {
                 else {
                     if(image.isEmpty())
                         image = "https://images-eu.ssl-images-amazon.com/images/I/61SGCYpjz-L._AC_UL600_SR597,600_.jpg";
-                    ajout = new Album(titre, artiste, annee, genre, duree, image);
+                    ajout = new Album(titre, artiste, annee, genre, nbpiste, duree, image);
                     fenetre_principal.AjouterUnAlbum(ajout);
+
                     fenetre_ajouter.dispose();
                 }
             }

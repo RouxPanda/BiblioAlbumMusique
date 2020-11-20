@@ -4,8 +4,8 @@ public class BDDConnection {
     private Connection connection = null;
     private Statement statement;
     public BDDConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:MusiqueBDD.db");
-        Statement statement = connection.createStatement();
+        connection = DriverManager.getConnection("jdbc:sqlite:MusiqueBDD.db");
+        statement = connection.createStatement();
     }
     public Statement getStatement() {
         return statement;

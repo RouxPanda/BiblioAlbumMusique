@@ -32,11 +32,11 @@ public class Montrage extends JPanel implements ActionListener {
     private Vector<Album> test;
     private Vector<Album> voulu;
     private Bibliotheque biblio;
-    Album rien = new Album("Rien100Rien", "Jul", "2019", "rap", "45", "https://images-na.ssl-images-amazon.com/images/I/61fFT2KEbAL.jpg");//
-    Album myworld = new Album("My World", "Jul", "2015", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/1b/46/74/7620123/1540-1/tsp20160205134438/My-world.jpg");
-    Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/29/94/ad/11375657/1540-1/tsp20190917101105/Ce-monde-est-cruel.jpg");
-    Album monument = new Album("Monument","Alkpote", "2019","rap","45","https://static.fnac-static.com/multimedia/Images/FR/NR/68/88/b0/11569256/1540-1/tsp20191125114100/Monument.jpg");
-    Album agartha = new Album("Agartha", "Vald", "2017", "rap", "66", "https://static.fnac-static.com/multimedia/Images/FR/NR/4b/e9/81/8513867/1540-1/tsp20161215132633/Agartha.jpg");
+    Album rien = new Album("Rien100Rien", "Jul", "2019", "rap", "1","45", "https://images-na.ssl-images-amazon.com/images/I/61fFT2KEbAL.jpg");//
+    Album myworld = new Album("My World", "Jul", "2015", "rap", "2","45", "https://static.fnac-static.com/multimedia/Images/FR/NR/1b/46/74/7620123/1540-1/tsp20160205134438/My-world.jpg");
+    Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", "rap","3","45", "https://static.fnac-static.com/multimedia/Images/FR/NR/29/94/ad/11375657/1540-1/tsp20190917101105/Ce-monde-est-cruel.jpg");
+    Album monument = new Album("Monument","Alkpote", "2019","rap","4","45","https://static.fnac-static.com/multimedia/Images/FR/NR/68/88/b0/11569256/1540-1/tsp20191125114100/Monument.jpg");
+    Album agartha = new Album("Agartha", "Vald", "2017", "rap", "5","66", "https://static.fnac-static.com/multimedia/Images/FR/NR/4b/e9/81/8513867/1540-1/tsp20161215132633/Agartha.jpg");
 
     public Montrage(){
         recherche_active = false;
@@ -398,14 +398,17 @@ public class Montrage extends JPanel implements ActionListener {
 
     public void Ajout(Album album){
         biblio.getTabalbum().add(album);
+        biblio.ajouterAlbum(album);
         Refresh();
     }
 
     public void Modifier(Album album){
         System.out.println("Pute");
         for (int i = 0; i < biblio.getTabalbum().size(); i++) {
-            if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() /*&& temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()*/)
-                biblio.getTabalbum().set(i,album);
+            if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() /*&& temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()*/) {
+                biblio.getTabalbum().set(i, album);
+                biblio.modifierAlbum(biblio.getTabalbum().elementAt(i));
+            }
         }
         Refresh();
         RetourArrière();
@@ -469,8 +472,10 @@ public class Montrage extends JPanel implements ActionListener {
             if (JOptionPane.showConfirmDialog(Montrage.this, "Désirez-vous supprimer cet album ?")
                     == JOptionPane.YES_OPTION) {
                 for (int i = 0; i < biblio.getTabalbum().size(); i++) {
-                    if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() && temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste())
+                    if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() && temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()) {
                         biblio.getTabalbum().remove(i);
+                        biblio.supprimeAlbum(biblio.getTabalbum().elementAt(i));
+                    }
                 }
                 Refresh();
                 RetourArrière();
