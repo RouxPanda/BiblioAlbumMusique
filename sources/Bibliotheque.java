@@ -26,6 +26,7 @@ public class Bibliotheque {
 
     /**
      * Init bdd.
+     * Récupère les données de la base de données pour en faire des albums et ensuite créer en tableau en vecteur bibliothèque dans lequel sont mit dans les albums
      */
     public void InitBDD(){
         Album alb;
@@ -63,7 +64,7 @@ public class Bibliotheque {
 
     /**
      * Supprime album.
-     *
+     * Supprime un album selectionnné dans l'interface de la base de données
      * @param album the album
      */
     public void supprimeAlbum(Album album) {
@@ -77,7 +78,7 @@ public class Bibliotheque {
 
     /**
      * Ajouter album.
-     *
+     * Ajoute un album avec les données nécessaire dans la base de données
      * @param album the album
      */
     public void ajouterAlbum(Album album) {
@@ -101,7 +102,7 @@ public class Bibliotheque {
 
     /**
      * Modifier album.
-     *
+     * Modifie un album dans la base de données avec les données fournies
      * @param album the album
      */
     public void modifierAlbum(Album album) {
