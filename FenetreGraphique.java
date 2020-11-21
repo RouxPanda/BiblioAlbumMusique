@@ -116,6 +116,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
 
         PanelMenu.setLayout(new GridBagLayout());
         PanelMenu.setBackground(Color.darkGray);
+
         GridBagConstraints gbc;
 
         Ajouter = new JButton();
