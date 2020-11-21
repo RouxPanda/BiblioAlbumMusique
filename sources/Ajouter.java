@@ -8,19 +8,60 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * The type Ajouter.
+ */
 public class Ajouter extends JDialog implements ActionListener {
+    /**
+     * The Fenetre ajouter.
+     */
     private JFrame fenetre_ajouter;
+    /**
+     * The Fenetre principal.
+     */
     private FenetreGraphique fenetre_principal;
+    /**
+     * The Valider.
+     */
     private JButton Valider;
+    /**
+     * The Ajout.
+     */
     Album ajout;
+    /**
+     * The Txt titre.
+     */
     private JTextField txtTitre;
+    /**
+     * The Txt artiste.
+     */
     private JTextField txtArtiste;
+    /**
+     * The Txt annee.
+     */
     private JTextField txtAnnee;
+    /**
+     * The Txt nbpiste.
+     */
     private JTextField txtNbpiste;
+    /**
+     * The Txt duree.
+     */
     private JTextField txtDuree;
+    /**
+     * The Txt image.
+     */
     private JTextField txtImage;
+    /**
+     * The Txt genre.
+     */
     private JComboBox txtGenre;
 
+    /**
+     * Instantiates a new Ajouter.
+     *
+     * @param principal the principal
+     */
     public Ajouter(FenetreGraphique principal){
         fenetre_ajouter = new JFrame("Ajouter un album");
         ajout = null;
@@ -105,7 +146,7 @@ public class Ajouter extends JDialog implements ActionListener {
             String image = txtImage.getText();
             String genre = txtGenre.getSelectedItem().toString();
             if(!titre.isEmpty() || !artiste.isEmpty() || !annee.isEmpty() || !duree.isEmpty()) {
-                if(!testImage(image))
+                if(!testImage(image) && !image.isEmpty())
                     JOptionPane.showMessageDialog(null,"URL non valide",
                             "Erreur",
                             JOptionPane.WARNING_MESSAGE);
@@ -121,6 +162,12 @@ public class Ajouter extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * Test image boolean.
+     *
+     * @param url the url
+     * @return the boolean
+     */
     public Boolean testImage(String url){
         try {
             BufferedImage image = ImageIO.read(new URL(url));
