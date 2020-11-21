@@ -8,18 +8,60 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * The type Ajouter.
+ */
 public class Ajouter extends JDialog implements ActionListener {
+    /**
+     * The Fenetre ajouter.
+     */
     private JFrame fenetre_ajouter;
+    /**
+     * The Fenetre principal.
+     */
     private FenetreGraphique fenetre_principal;
+    /**
+     * The Valider.
+     */
     private JButton Valider;
+    /**
+     * The Ajout.
+     */
     Album ajout;
+    /**
+     * The Txt titre.
+     */
     private JTextField txtTitre;
+    /**
+     * The Txt artiste.
+     */
     private JTextField txtArtiste;
+    /**
+     * The Txt annee.
+     */
     private JTextField txtAnnee;
+    /**
+     * The Txt nbpiste.
+     */
+    private JTextField txtNbpiste;
+    /**
+     * The Txt duree.
+     */
     private JTextField txtDuree;
+    /**
+     * The Txt image.
+     */
     private JTextField txtImage;
+    /**
+     * The Txt genre.
+     */
     private JComboBox txtGenre;
 
+    /**
+     * Instantiates a new Ajouter.
+     *
+     * @param principal the principal
+     */
     public Ajouter(FenetreGraphique principal){
         fenetre_ajouter = new JFrame("Ajouter un album");
         ajout = null;
@@ -27,6 +69,7 @@ public class Ajouter extends JDialog implements ActionListener {
         txtTitre = new JTextField(10);
         txtArtiste = new JTextField(10);
         txtAnnee = new JTextField(10);
+        txtNbpiste = new JTextField(10);
         txtDuree = new JTextField(10);
         txtImage = new JTextField(10);
         txtGenre = new JComboBox();
@@ -46,6 +89,10 @@ public class Ajouter extends JDialog implements ActionListener {
         lblAnnee.setDisplayedMnemonic('V');
         lblAnnee.setLabelFor(txtAnnee);
 
+        JLabel lblNbpiste = new JLabel("Nombre de piste", JLabel.RIGHT);
+        lblAnnee.setDisplayedMnemonic('V');
+        lblAnnee.setLabelFor(txtNbpiste);
+
         JLabel lblGenre = new JLabel("Genre", JLabel.RIGHT);
         lblGenre.setDisplayedMnemonic('V');
         lblGenre.setLabelFor(txtGenre);
@@ -64,13 +111,15 @@ public class Ajouter extends JDialog implements ActionListener {
         Valider.addActionListener(this);
 
         JPanel p = new JPanel( );
-        p.setLayout(new GridLayout(7, 4, 7, 9));
+        p.setLayout(new GridLayout(8, 4, 8, 9));
         p.add(lblTitre);
         p.add(txtTitre);
         p.add(lblArtiste);
         p.add(txtArtiste);
         p.add(lblAnnee);
         p.add(txtAnnee);
+        p.add(lblNbpiste);
+        p.add(txtNbpiste);
         p.add(lblGenre);
         p.add(txtGenre);
         p.add(lblDuree);
@@ -92,25 +141,33 @@ public class Ajouter extends JDialog implements ActionListener {
             String titre = txtTitre.getText();
             String artiste = txtArtiste.getText();
             String annee = txtAnnee.getText();
+            String nbpiste = txtNbpiste.getText();
             String duree = txtDuree.getText();
             String image = txtImage.getText();
             String genre = txtGenre.getSelectedItem().toString();
             if(!titre.isEmpty() || !artiste.isEmpty() || !annee.isEmpty() || !duree.isEmpty()) {
-                if(!testImage(image))
+                if(!testImage(image) && !image.isEmpty())
                     JOptionPane.showMessageDialog(null,"URL non valide",
                             "Erreur",
                             JOptionPane.WARNING_MESSAGE);
                 else {
                     if(image.isEmpty())
                         image = "https://images-eu.ssl-images-amazon.com/images/I/61SGCYpjz-L._AC_UL600_SR597,600_.jpg";
-                    ajout = new Album(titre, artiste, annee, genre, duree, image);
+                    ajout = new Album(titre, artiste, annee, genre, nbpiste, duree, image);
                     fenetre_principal.AjouterUnAlbum(ajout);
+
                     fenetre_ajouter.dispose();
                 }
             }
         }
     }
 
+    /**
+     * Test image boolean.
+     *
+     * @param url the url
+     * @return the boolean
+     */
     public Boolean testImage(String url){
         try {
             BufferedImage image = ImageIO.read(new URL(url));

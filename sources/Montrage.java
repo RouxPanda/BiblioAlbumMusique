@@ -7,36 +7,72 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.TreeMap;
 import java.util.Vector;
 
+/**
+ * The type Montrage.
+ */
 public class Montrage extends JPanel implements ActionListener {
+    /**
+     * The Principal.
+     */
     private JPanel principal;
+    /**
+     * The Assemble.
+     */
     private JPanel Assemble;
+    /**
+     * The Header.
+     */
     private JPanel Header;
+    /**
+     * The Statue.
+     */
     private JLabel Statue;
+    /**
+     * The Trie.
+     */
     private JComboBox Trie;
+    /**
+     * The Suppression.
+     */
     private JButton Suppression;
+    /**
+     * The Modifier.
+     */
     private JButton Modifier;
+    /**
+     * The Recherche active.
+     */
     private boolean recherche_active;
+    /**
+     * The Recherche vide.
+     */
     private boolean recherche_vide;
+    /**
+     * The Temp.
+     */
     private Album temp;
+    /**
+     * The Test.
+     */
     private Vector<Album> test;
+    /**
+     * The Voulu.
+     */
     private Vector<Album> voulu;
-    Album rien = new Album("Rien100Rien", "Jul", "2019", "rap", "45", "https://images-na.ssl-images-amazon.com/images/I/61fFT2KEbAL.jpg");//
-    Album myworld = new Album("My World", "Jul", "2015", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/1b/46/74/7620123/1540-1/tsp20160205134438/My-world.jpg");
-    Album cmec = new Album("Ce Monde est cruel", "Vald", "2019", "rap", "45", "https://static.fnac-static.com/multimedia/Images/FR/NR/29/94/ad/11375657/1540-1/tsp20190917101105/Ce-monde-est-cruel.jpg");
-    Album monument = new Album("Monument","Alkpote", "2019","rap","45","https://static.fnac-static.com/multimedia/Images/FR/NR/68/88/b0/11569256/1540-1/tsp20191125114100/Monument.jpg");
-    Album agartha = new Album("Agartha", "Vald", "2017", "rap", "66", "https://static.fnac-static.com/multimedia/Images/FR/NR/4b/e9/81/8513867/1540-1/tsp20161215132633/Agartha.jpg");
+    /**
+     * The Biblio.
+     */
+    private Bibliotheque biblio;
 
+    /**
+     * Instantiates a new Montrage.
+     */
     public Montrage(){
         recherche_active = false;
         Assemble = new JPanel();
@@ -46,9 +82,8 @@ public class Montrage extends JPanel implements ActionListener {
         principal = new JPanel();
         principal.setLayout(new CardLayout());
 
-        test = new Vector<>();
-        test.add(rien);test.add(myworld);test.add(cmec);test.add(monument);test.add(agartha);
-        //test.add(cmec);test.add(rien);test.add(myworld);test.add(cmec);test.add(rien);test.add(cmec);test.add(myworld);test.add(cmec);test.add(rien);test.add(myworld);
+        biblio = new Bibliotheque();
+        biblio.InitBDD();
 
         Statue = new JLabel();
         Statue.setText("Accueil");
@@ -78,10 +113,20 @@ public class Montrage extends JPanel implements ActionListener {
         principal.add(Accueil());
     }
 
+    /**
+     * Gets principal.
+     *
+     * @return the principal
+     */
     public JPanel getPrincipal() {
         return Assemble;
     }
 
+    /**
+     * Set ligne j panel.
+     *
+     * @return the j panel
+     */
     public JPanel SetLigne(){
         JPanel PanelLigne = new JPanel();
         PanelLigne.setBackground(Color.darkGray);
@@ -90,6 +135,15 @@ public class Montrage extends JPanel implements ActionListener {
         return PanelLigne;
     }
 
+    /**
+     * New ligne j panel.
+     *
+     * @param card1 the card 1
+     * @param card2 the card 2
+     * @param card3 the card 3
+     * @param card4 the card 4
+     * @return the j panel
+     */
     public JPanel newLigne(Album card1, Album card2, Album card3, Album card4){
         JPanel PanelLigne = SetLigne();
         PanelLigne.add(newcard(card1));
@@ -99,6 +153,15 @@ public class Montrage extends JPanel implements ActionListener {
 
         return PanelLigne;
     }
+
+    /**
+     * New ligne j panel.
+     *
+     * @param card1 the card 1
+     * @param card2 the card 2
+     * @param card3 the card 3
+     * @return the j panel
+     */
     public JPanel newLigne(Album card1, Album card2, Album card3){
         JPanel PanelLigne = SetLigne();
         PanelLigne.add(newcard(card1));
@@ -107,6 +170,14 @@ public class Montrage extends JPanel implements ActionListener {
 
         return PanelLigne;
     }
+
+    /**
+     * New ligne j panel.
+     *
+     * @param card1 the card 1
+     * @param card2 the card 2
+     * @return the j panel
+     */
     public JPanel newLigne(Album card1, Album card2){
         JPanel PanelLigne = SetLigne();
         PanelLigne.add(newcard(card1));
@@ -114,6 +185,13 @@ public class Montrage extends JPanel implements ActionListener {
 
         return PanelLigne;
     }
+
+    /**
+     * New ligne j panel.
+     *
+     * @param card1 the card 1
+     * @return the j panel
+     */
     public JPanel newLigne(Album card1){
         JPanel PanelLigne = SetLigne();
         PanelLigne.add(newcard(card1));
@@ -121,7 +199,12 @@ public class Montrage extends JPanel implements ActionListener {
         return PanelLigne;
     }
 
-    //1 Accueil
+    /**
+     * Changement panel.
+     *
+     * @param i the
+     */
+//1 Accueil
     //2 Album
     //3 Recherche
     public void ChangementPanel(int i){
@@ -155,6 +238,9 @@ public class Montrage extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Retour arrière.
+     */
     public void RetourArrière(){
         System.out.println(principal.getComponentCount());
         final CardLayout cl = (CardLayout)(principal.getLayout());
@@ -174,6 +260,9 @@ public class Montrage extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Refresh.
+     */
     public void Refresh(){
         final CardLayout cl = (CardLayout)(principal.getLayout());
         principal.remove(0);
@@ -181,6 +270,12 @@ public class Montrage extends JPanel implements ActionListener {
         cl.first(principal);
     }
 
+    /**
+     * Newcard j panel.
+     *
+     * @param album the album
+     * @return the j panel
+     */
     public JPanel newcard(Album album){
         JPanel PanelCard = new JPanel();
         PanelCard.setLayout(new BoxLayout(PanelCard,BoxLayout.Y_AXIS));
@@ -242,13 +337,21 @@ public class Montrage extends JPanel implements ActionListener {
         return PanelCard;
     }
 
+    /**
+     * Accueil j scroll pane.
+     *
+     * @return the j scroll pane
+     */
     public JScrollPane Accueil(){
-        for (int i = 0; i < test.size(); i++) {
-            System.out.println(test.elementAt(i).getNom());
-        }
-        return  ToutAlbum(test);
+        return  ToutAlbum(biblio.getTabalbum());
     }
 
+    /**
+     * Tout album j scroll pane.
+     *
+     * @param liste the liste
+     * @return the j scroll pane
+     */
     public JScrollPane ToutAlbum(Vector<Album> liste){
         JPanel Montrage = new JPanel();
         Montrage.setBackground(Color.darkGray);
@@ -256,7 +359,8 @@ public class Montrage extends JPanel implements ActionListener {
 
         int taille4 = liste.size() - liste.size()%4;
         int reste = liste.size()%4;
-        for (int i = 0; i < taille4/4; i++) {
+
+        for (int i = 0; i < taille4; i+=4) {
             Montrage.add(newLigne(liste.elementAt(i),liste.elementAt(i+1),liste.elementAt(i+2),liste.elementAt(i+3)));
         }
         if (reste != 0){
@@ -279,6 +383,12 @@ public class Montrage extends JPanel implements ActionListener {
         return scroll;
     }
 
+    /**
+     * Album presentation j panel.
+     *
+     * @param album the album
+     * @return the j panel
+     */
     public JPanel AlbumPresentation(Album album){
         Border bord = new EmptyBorder(40,40,10,10);
         Border bord2 = new EmptyBorder(40,0,10,10);
@@ -369,6 +479,11 @@ public class Montrage extends JPanel implements ActionListener {
         return PreAlbum;
     }
 
+    /**
+     * Recherche.
+     *
+     * @param recherche the recherche
+     */
     public void Recherche(String recherche){
         voulu.clear();
         voulu = Filtrage(recherche);
@@ -381,40 +496,64 @@ public class Montrage extends JPanel implements ActionListener {
         ChangementPanel(3);
     }
 
+    /**
+     * Filtrage vector.
+     *
+     * @param recherche the recherche
+     * @return the vector
+     */
     public Vector<Album> Filtrage(String recherche){
         Vector<Album> Stock = new Vector<>();
-        for (int u = 0; u < test.size(); u++) { //Pour tout les albums présent
-            if(test.elementAt(u).getNom().toLowerCase().contains(recherche.toLowerCase()))
-                Stock.add(test.elementAt(u));
-            if(test.elementAt(u).getGenre().toLowerCase().contains(recherche.toLowerCase()))
-                Stock.add(test.elementAt(u));
-            if(test.elementAt(u).getArtiste().toLowerCase().contains(recherche.toLowerCase()))
-                Stock.add(test.elementAt(u));
+        for (int u = 0; u < biblio.getTabalbum().size(); u++) { //Pour tout les albums présent
+            if(biblio.getTabalbum().elementAt(u).getNom().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
+            if(biblio.getTabalbum().elementAt(u).getGenre().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
+            if(biblio.getTabalbum().elementAt(u).getArtiste().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
         }
         return Stock;
     }
 
+    /**
+     * Ajout.
+     *
+     * @param album the album
+     */
     public void Ajout(Album album){
-        test.add(album);
+        biblio.getTabalbum().add(album);
+        biblio.ajouterAlbum(album);
         Refresh();
     }
 
+    /**
+     * Modifier.
+     *
+     * @param album the album
+     */
     public void Modifier(Album album){
-        System.out.println("Pute");
-        for (int i = 0; i < test.size(); i++) {
-            if (temp.getNom() == test.elementAt(i).getNom() /*&& temp.getArtiste() == test.elementAt(i).getArtiste()*/)
-                test.set(i,album);
+        for (int i = 0; i < biblio.getTabalbum().size(); i++) {
+            if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() /*&& temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()*/) {
+                biblio.getTabalbum().set(i, album);
+                biblio.modifierAlbum(biblio.getTabalbum().elementAt(i));
+            }
         }
         Refresh();
         RetourArrière();
     }
 
+    /**
+     * Trie par.
+     *
+     * @param choix the choix
+     */
     public void TriePar(String choix){
-        Vector<Album> Retour = new Vector<>();
+        Vector<Album> Retour;
+
         if (recherche_active)
             Retour = voulu;
         else
-            Retour = test;
+            Retour = biblio.getTabalbum();
 
         if (choix == "Titre"){
             Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
@@ -432,6 +571,12 @@ public class Montrage extends JPanel implements ActionListener {
         Refresh();
     }
 
+    /**
+     * Image url j label.
+     *
+     * @param album the album
+     * @return the j label
+     */
     public JLabel ImageURL(Album album){
         BufferedImage img = null;
         try {
@@ -447,6 +592,12 @@ public class Montrage extends JPanel implements ActionListener {
         return image;
     }
 
+    /**
+     * Image source j label.
+     *
+     * @param album the album
+     * @return the j label
+     */
     public JLabel ImageSource(Album album){
         BufferedImage img = null;
         try {
@@ -466,9 +617,11 @@ public class Montrage extends JPanel implements ActionListener {
         if(e.getActionCommand().equals("Supprimer")) {
             if (JOptionPane.showConfirmDialog(Montrage.this, "Désirez-vous supprimer cet album ?")
                     == JOptionPane.YES_OPTION) {
-                for (int i = 0; i < test.size(); i++) {
-                    if (temp.getNom() == test.elementAt(i).getNom() && temp.getArtiste() == test.elementAt(i).getArtiste())
-                        test.remove(i);
+                for (int i = 0; i < biblio.getTabalbum().size(); i++) {
+                    if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() && temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()) {
+                        biblio.supprimeAlbum(biblio.getTabalbum().elementAt(i));
+                        biblio.getTabalbum().remove(i);
+                    }
                 }
                 Refresh();
                 RetourArrière();
