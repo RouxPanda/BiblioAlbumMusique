@@ -9,27 +9,28 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * The type Modifier.
+ * La fenetre Modifier qui permet l'édition des albums présent dans la base.
+ * La fenetre est le formulaire permettant l'edition
  */
 public class Modifier extends JDialog implements ActionListener {
     /**
-     * The Fenetre ajouter.
+     * La fenetre principal du formulaire
      */
     private JFrame fenetre_ajouter;
     /**
-     * The Fenetre principal.
+     * L'instance de Montrage depuis son apparition
      */
     private Montrage fenetre_principal;
     /**
-     * The Valider.
+     * Le bouton Valider.
      */
     private JButton Valider;
     /**
-     * The Album.
+     * L'Album qui va se faire modifie
      */
     private Album album;
     /**
-     * The Ajout.
+     * L'Album modifié
      */
     Album ajout;
     /**
@@ -52,10 +53,6 @@ public class Modifier extends JDialog implements ActionListener {
      * The Txt image.
      */
     private JTextField txtImage;
-    /**
-     * The Txt genre.
-     */
-    private JComboBox txtGenre;
 
     /**
      * Instantiates a new Modifier.
@@ -63,11 +60,12 @@ public class Modifier extends JDialog implements ActionListener {
      * @param principal the principal
      * @param _album    the album
      */
-    public Modifier(Montrage principal,Album _album){
+    public Modifier(Montrage principal, Album _album){
         album = _album;
         fenetre_ajouter = new JFrame("Ajouter un album");
         ajout = null;
         fenetre_principal = principal;
+
         txtTitre = new JTextField(10);
         txtArtiste = new JTextField(10);
         txtAnnee = new JTextField(10);
@@ -106,7 +104,7 @@ public class Modifier extends JDialog implements ActionListener {
         Valider.addActionListener(this);
 
         JPanel p = new JPanel( );
-        p.setLayout(new GridLayout(6, 4, 7, 8));
+        p.setLayout(new GridLayout(7, 4, 7, 8));
         p.add(lblTitre);
         p.add(txtTitre);
         p.add(lblArtiste);
@@ -125,7 +123,10 @@ public class Modifier extends JDialog implements ActionListener {
         fenetre_ajouter.setVisible(true);
     }
 
-
+    /**
+     * Réalise l'envoie de l'album modifié vers la classe Montrage lors de la pression du bouton valider
+     * @param evenement
+     */
     @Override
     public void actionPerformed(ActionEvent evenement){
         if(evenement.getActionCommand().equals("Valider")){
@@ -152,7 +153,8 @@ public class Modifier extends JDialog implements ActionListener {
     }
 
     /**
-     * Test image boolean.
+     * Fonction qui test si l'url d'une image est valide ou pas.
+     * Retourne un boolean en fonction si l'url est bien une image ou pas
      *
      * @param url the url
      * @return the boolean
@@ -160,7 +162,6 @@ public class Modifier extends JDialog implements ActionListener {
     public Boolean testImage(String url){
         try {
             BufferedImage image = ImageIO.read(new URL(url));
-            //BufferedImage image = ImageIO.read(new URL("http://someimage.jpg"));
             if(image != null){
                 return true;
             } else{

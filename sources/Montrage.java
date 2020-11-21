@@ -12,17 +12,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.Vector;
+import java.util.function.UnaryOperator;
 
 /**
- * The type Montrage.
+ * La classe Montrage qui est le panneau principal dans le programme
+ *
+ * Il est particulier car il est formé en couche qui s'efface pour revenir à l'origine Accueil()
  */
 public class Montrage extends JPanel implements ActionListener {
     /**
-     * The Principal.
+     * L'ensemble de tout
      */
     private JPanel principal;
     /**
-     * The Assemble.
+     * L'association du Header et Statue
      */
     private JPanel Assemble;
     /**
@@ -34,39 +37,35 @@ public class Montrage extends JPanel implements ActionListener {
      */
     private JLabel Statue;
     /**
-     * The Trie.
+     * La liste de Trie
      */
     private JComboBox Trie;
     /**
-     * The Suppression.
+     * Le bouton Suppression.
      */
     private JButton Suppression;
     /**
-     * The Modifier.
+     * Le bouton Modifier.
      */
     private JButton Modifier;
     /**
-     * The Recherche active.
+     * Le booleen qui donne l'indication la Recherche est-elle active ?
      */
     private boolean recherche_active;
     /**
-     * The Recherche vide.
+     * Le booleen qui donne l'indication la Recherche est-elle vide ?
      */
     private boolean recherche_vide;
     /**
-     * The Temp.
+     * L'album en mémoire Temp.
      */
     private Album temp;
     /**
-     * The Test.
-     */
-    private Vector<Album> test;
-    /**
-     * The Voulu.
+     * Le résultat de la recherche dans un Vecteur Voulu.
      */
     private Vector<Album> voulu;
     /**
-     * The Biblio.
+     * L'instance de bibliothèque
      */
     private Bibliotheque biblio;
 
@@ -123,9 +122,9 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Set ligne j panel.
+     * Set les paramètres du ligne j panel.
      *
-     * @return the j panel
+     * @return un j panel
      */
     public JPanel SetLigne(){
         JPanel PanelLigne = new JPanel();
@@ -136,13 +135,13 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * New ligne j panel.
+     * Nouvelle ligne j panel complète.
      *
-     * @param card1 the card 1
-     * @param card2 the card 2
-     * @param card3 the card 3
-     * @param card4 the card 4
-     * @return the j panel
+     * @param card1 the card 1e
+     * @param card2 the card 2e
+     * @param card3 the card 3e
+     * @param card4 the card 4e
+     * @return la ligne entière j panel
      */
     public JPanel newLigne(Album card1, Album card2, Album card3, Album card4){
         JPanel PanelLigne = SetLigne();
@@ -155,7 +154,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * New ligne j panel.
+     * New ligne j panel pour 3 card
      *
      * @param card1 the card 1
      * @param card2 the card 2
@@ -172,7 +171,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * New ligne j panel.
+     * New ligne j panel pour 2 card
      *
      * @param card1 the card 1
      * @param card2 the card 2
@@ -187,7 +186,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * New ligne j panel.
+     * New ligne j panel pour 2 card
      *
      * @param card1 the card 1
      * @return the j panel
@@ -201,18 +200,15 @@ public class Montrage extends JPanel implements ActionListener {
 
     /**
      * Changement panel.
+     * Permet la transfusion de pannel entre
+     * 2: l'album présentation
+     * 3: La page de recherche
      *
      * @param i the
      */
-//1 Accueil
-    //2 Album
-    //3 Recherche
     public void ChangementPanel(int i){
         final CardLayout cl = (CardLayout)(principal.getLayout());
         switch(i) {
-            case 1:
-
-                break;
             case 2:
                 principal.add(AlbumPresentation(temp));
                 Statue.setText("");
@@ -240,6 +236,7 @@ public class Montrage extends JPanel implements ActionListener {
 
     /**
      * Retour arrière.
+     * Permet de revenir en arrière dans les onglets et d'avancer les onglets au fur et à mesure pour ne pas surcharger la mémoire
      */
     public void RetourArrière(){
         System.out.println(principal.getComponentCount());
@@ -261,7 +258,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Refresh.
+     * Refresh la page principal pour une modif ou un ajout
      */
     public void Refresh(){
         final CardLayout cl = (CardLayout)(principal.getLayout());
@@ -272,6 +269,7 @@ public class Montrage extends JPanel implements ActionListener {
 
     /**
      * Newcard j panel.
+     * La card est pour chaque Album présenter et se compose d'un titre et d'une image clickable
      *
      * @param album the album
      * @return the j panel
@@ -338,7 +336,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Accueil j scroll pane.
+     * Accueil. Donne la fenêtre d'accueil principal
      *
      * @return the j scroll pane
      */
@@ -347,7 +345,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Tout album j scroll pane.
+     * Affiche l'ensemble des albums à partir d'un vecteur avec les newligne
      *
      * @param liste the liste
      * @return the j scroll pane
@@ -385,6 +383,8 @@ public class Montrage extends JPanel implements ActionListener {
 
     /**
      * Album presentation j panel.
+     * Ce que donne un album quand on click dessus.
+     * Outre les infos on peut aussi modifier ou supprimer les albums
      *
      * @param album the album
      * @return the j panel
@@ -480,7 +480,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Recherche.
+     * Fonction Recherche qui à partir du string de la recherche voulu, donne le retour de la recherche
      *
      * @param recherche the recherche
      */
@@ -497,10 +497,10 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Filtrage vector.
+     * Filtre le vecteur en fonction de la recherche désirer
      *
-     * @param recherche the recherche
-     * @return the vector
+     * @param recherche la recherche
+     * @return le vector des albums rechercher
      */
     public Vector<Album> Filtrage(String recherche){
         Vector<Album> Stock = new Vector<>();
@@ -516,7 +516,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Ajout.
+     * Ajout d'un album
      *
      * @param album the album
      */
@@ -527,7 +527,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Modifier.
+     * Modification d'un album depuis sa présentation
      *
      * @param album the album
      */
@@ -543,7 +543,7 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Trie par.
+     * Trie par le choix voulu. Par Artiste, Titre ou Date
      *
      * @param choix the choix
      */
@@ -567,12 +567,14 @@ public class Montrage extends JPanel implements ActionListener {
             Retour.sort(Comparator.comparing(Album::getDate,String.CASE_INSENSITIVE_ORDER));
         }
 
-        test = Retour;
+        for (int i = 0; i < Retour.size(); i++) {
+            biblio.getTabalbum().set(i,Retour.elementAt(i));
+        }
         Refresh();
     }
 
     /**
-     * Image url j label.
+     * Image url j label. Télécharge et retourne une image un label contenant l'image.
      *
      * @param album the album
      * @return the j label
@@ -593,26 +595,9 @@ public class Montrage extends JPanel implements ActionListener {
     }
 
     /**
-     * Image source j label.
-     *
-     * @param album the album
-     * @return the j label
+     * S'actionne en fonction des boutons Supprimer, Modifier ou la combobox de trie
+     * @param e
      */
-    public JLabel ImageSource(Album album){
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(album.getImage()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Image dimg = img.getScaledInstance(200, 200,Image.SCALE_SMOOTH);
-        Icon icon = new ImageIcon(dimg);
-        JLabel image = new JLabel();
-        image.setIcon(icon);
-        image.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return image;
-    }
-
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Supprimer")) {
             if (JOptionPane.showConfirmDialog(Montrage.this, "Désirez-vous supprimer cet album ?")

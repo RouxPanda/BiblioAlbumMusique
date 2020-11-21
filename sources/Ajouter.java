@@ -9,23 +9,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * The type Ajouter.
+ * La fenetre Ajouter qui permet l'ajout d'un album
+ * La fenetre est le formulaire permettant l'ajout
  */
 public class Ajouter extends JDialog implements ActionListener {
     /**
-     * The Fenetre ajouter.
+     * La fenetre principal du formulaire
      */
     private JFrame fenetre_ajouter;
     /**
-     * The Fenetre principal.
+     * L'instance de FenetreGraphique depuis son apparition
      */
     private FenetreGraphique fenetre_principal;
     /**
-     * The Valider.
+     * Le bouton Valider.
      */
     private JButton Valider;
     /**
-     * The Ajout.
+     * L'Album qui s'ajout
      */
     Album ajout;
     /**
@@ -134,7 +135,10 @@ public class Ajouter extends JDialog implements ActionListener {
         fenetre_ajouter.setVisible(true);
     }
 
-
+    /**
+     * Réalise l'envoie de l'album vers la classe FenetreGraphique lors de la pression du bouton valider
+     * @param evenement
+     */
     @Override
     public void actionPerformed(ActionEvent evenement){
         if(evenement.getActionCommand().equals("Valider")){
@@ -163,7 +167,8 @@ public class Ajouter extends JDialog implements ActionListener {
     }
 
     /**
-     * Test image boolean.
+     * Fonction qui test si l'url d'une image est valide ou pas.
+     * Retourne un boolean en fonction si l'url est bien une image ou pas
      *
      * @param url the url
      * @return the boolean
