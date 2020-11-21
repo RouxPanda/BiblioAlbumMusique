@@ -116,6 +116,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
 
         PanelMenu.setLayout(new GridBagLayout());
         PanelMenu.setBackground(Color.darkGray);
+        Central.add(PanelMenu, BorderLayout.WEST);
         GridBagConstraints gbc;
 
         Ajouter = new JButton();
@@ -148,7 +149,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         gbc.anchor = GridBagConstraints.WEST;
         PanelMenu.add(label2, gbc);
 
-        Border bord = new EmptyBorder(0,4,160,4);
+        Border bord = new EmptyBorder(0,4,200,4);
         PanelMenu.setBorder(new CompoundBorder(bord,bord));
 
         fenetre.add(Central);
@@ -181,7 +182,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
         return bouton;
     }
 
-        @Override
+    @Override
     public void actionPerformed(ActionEvent evenement){
         if(evenement.getActionCommand().equals("Retour"))
             montrage.RetourArrière();
