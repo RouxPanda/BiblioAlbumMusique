@@ -513,6 +513,8 @@ public class Montrage extends JPanel implements ActionListener {
                 Stock.add(biblio.getTabalbum().elementAt(u));
             if(biblio.getTabalbum().elementAt(u).getArtiste().toLowerCase().contains(recherche.toLowerCase()))
                 Stock.add(biblio.getTabalbum().elementAt(u));
+            if(biblio.getTabalbum().elementAt(u).getDate().toLowerCase().contains(recherche.toLowerCase()))
+                Stock.add(biblio.getTabalbum().elementAt(u));
         }
         return Stock;
     }
