@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * The type Bibliotheque.
  */
 //Contient l'entierté de nos albums

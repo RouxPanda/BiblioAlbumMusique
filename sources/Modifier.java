@@ -9,6 +9,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * La fenetre Modifier qui permet l'édition des albums présent dans la base.
  * La fenetre est le formulaire permettant l'edition
  */

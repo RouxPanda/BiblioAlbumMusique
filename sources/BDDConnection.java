@@ -1,6 +1,8 @@
 import java.sql.*;
 
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * The type Bdd connection.
  */
 public class BDDConnection {

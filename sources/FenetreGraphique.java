@@ -11,6 +11,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * The type Fenetre graphique.
  */
 public class FenetreGraphique extends JFrame implements ActionListener {

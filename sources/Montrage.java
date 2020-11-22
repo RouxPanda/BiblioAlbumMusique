@@ -15,6 +15,8 @@ import java.util.Vector;
 import java.util.function.UnaryOperator;
 
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * La classe Montrage qui est le panneau principal dans le programme
  *
  * Il est particulier car il est formé en couche qui s'efface pour revenir à l'origine Accueil()

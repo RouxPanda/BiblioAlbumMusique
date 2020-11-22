@@ -9,6 +9,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * La fenetre Ajouter qui permet l'ajout d'un album
  * La fenetre est le formulaire permettant l'ajout
  */

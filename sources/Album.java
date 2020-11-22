@@ -1,4 +1,6 @@
 /**
+ * @author TRONC Clément
+ * @author DI PIAZZA Hugo
  * The type Album.
  */
 public class Album {
