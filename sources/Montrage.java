@@ -394,6 +394,7 @@ public class Montrage extends JPanel implements ActionListener {
     public JPanel AlbumPresentation(Album album){
         Border bord = new EmptyBorder(40,40,10,10);
         Border bord2 = new EmptyBorder(40,0,10,10);
+        Border bord3 = new EmptyBorder(100,0,0,10);
 
         Suppression = new JButton();
         Suppression.setText("Supprimer");
@@ -442,6 +443,11 @@ public class Montrage extends JPanel implements ActionListener {
         duree.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         duree.setForeground(Color.lightGray);
         duree.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel nb = new JLabel("Nombres de pistes : " + album.getNb_pistes());
+        nb.setBorder(bord3);
+        nb.setFont(new Font("TimesRoman", Font.PLAIN, 60));
+        nb.setForeground(Color.WHITE);
+        nb.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel ligne = new JPanel();
         ligne.setLayout(new FlowLayout());
@@ -476,6 +482,7 @@ public class Montrage extends JPanel implements ActionListener {
         //JScrollPane scrool = new JScrollPane();
         JPanel scrool = new JPanel();
         scrool.setBackground(Color.darkGray);
+        scrool.add(nb);
         PreAlbum.add(head, BorderLayout.PAGE_START);
         PreAlbum.add(scrool, BorderLayout.CENTER);
         return PreAlbum;
