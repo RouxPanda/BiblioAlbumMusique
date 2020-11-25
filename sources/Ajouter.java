@@ -18,15 +18,15 @@ public class Ajouter extends JDialog implements ActionListener {
     /**
      * La fenetre principal du formulaire
      */
-    private JFrame fenetre_ajouter;
+    private final JFrame fenetre_ajouter;
     /**
      * L'instance de FenetreGraphique depuis son apparition
      */
-    private FenetreGraphique fenetre_principal;
+    private final FenetreGraphique fenetre_principal;
     /**
      * Le bouton Valider.
      */
-    private JButton Valider;
+    private final JButton Valider;
     /**
      * L'Album qui s'ajout
      */
@@ -34,27 +34,27 @@ public class Ajouter extends JDialog implements ActionListener {
     /**
      * The Txt titre.
      */
-    private JTextField txtTitre;
+    private final JTextField txtTitre;
     /**
      * The Txt artiste.
      */
-    private JTextField txtArtiste;
+    private final JTextField txtArtiste;
     /**
      * The Txt annee.
      */
-    private JTextField txtAnnee;
+    private final JTextField txtAnnee;
     /**
      * The Txt nbpiste.
      */
-    private JTextField txtNbpiste;
+    private final JTextField txtNbpiste;
     /**
      * The Txt duree.
      */
-    private JTextField txtDuree;
+    private final JTextField txtDuree;
     /**
      * The Txt image.
      */
-    private JTextField txtImage;
+    private final JTextField txtImage;
     /**
      * The Txt genre.
      */
@@ -179,11 +179,7 @@ public class Ajouter extends JDialog implements ActionListener {
         try {
             BufferedImage image = ImageIO.read(new URL(url));
             //BufferedImage image = ImageIO.read(new URL("http://someimage.jpg"));
-            if(image != null){
-                return true;
-            } else{
-                return false;
-            }
+            return image != null;
 
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block

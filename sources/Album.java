@@ -7,31 +7,31 @@ public class Album {
     /**
      * The Nom.
      */
-    private String  nom;
+    private final String  nom;
     /**
      * The Artiste.
      */
-    private String  artiste;
+    private final String  artiste;
     /**
      * The Date.
      */
-    private String  date;
+    private final String  date;
     /**
      * The Genre.
      */
-    private String genre;
+    private final String genre;
     /**
      * The Nb pistes.
      */
-    private String nb_pistes;
+    private final String nb_pistes;
     /**
      * The Duree.
      */
-    private String duree;
+    private final String duree;
     /**
      * The Image.
      */
-    private String  image;
+    private final String  image;
 
     /**
      * Instantiates a new Album.

@@ -7,12 +7,10 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.Vector;
-import java.util.function.UnaryOperator;
 
 /**
  * @author TRONC Clément
@@ -25,19 +23,19 @@ public class Montrage extends JPanel implements ActionListener {
     /**
      * L'ensemble de tout
      */
-    private JPanel principal;
+    private final JPanel principal;
     /**
      * L'association du Header et Statue
      */
-    private JPanel Assemble;
+    private final JPanel Assemble;
     /**
      * The Header.
      */
-    private JPanel Header;
+    private final JPanel Header;
     /**
      * The Statue.
      */
-    private JLabel Statue;
+    private final JLabel Statue;
     /**
      * La liste de Trie
      */
@@ -69,7 +67,7 @@ public class Montrage extends JPanel implements ActionListener {
     /**
      * L'instance de bibliothèque
      */
-    private Bibliotheque biblio;
+    private final Bibliotheque biblio;
 
     /**
      * Instantiates a new Montrage.
@@ -95,7 +93,7 @@ public class Montrage extends JPanel implements ActionListener {
         Statue.setBorder(new CompoundBorder(bord,bord));
 
         Trie = new JComboBox();
-        String s1[] = { "Titre", "Artiste", "Date"};
+        String[] s1 = { "Titre", "Artiste", "Date"};
         Trie = new JComboBox(s1);
         Trie.setSelectedIndex(-1);
         Trie.addActionListener(this);
@@ -222,7 +220,7 @@ public class Montrage extends JPanel implements ActionListener {
                 if(recherche_vide) {
                     JPanel vide = new JPanel();
                     pas.setText("Aucun résultat");
-                    pas.setFont(new Font("Comic Sans",0,24));
+                    pas.setFont(new Font("Comic Sans", Font.PLAIN,24));
                     pas.setForeground(Color.lightGray);
                     vide.setBackground(Color.darkGray);
                     vide.add(pas);
@@ -286,14 +284,14 @@ public class Montrage extends JPanel implements ActionListener {
         titre.setText(album.getNom());
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
         titre.setBorder(new CompoundBorder(bord,bord));
-        titre.setFont(new Font("Comic Sans",0,15));
+        titre.setFont(new Font("Comic Sans", Font.PLAIN,15));
         titre.setForeground(Color.white);
 
         JLabel auteur = new JLabel();
         auteur.setText(album.getArtiste());
         auteur.setAlignmentX(Component.CENTER_ALIGNMENT);
         auteur.setBorder(new CompoundBorder(bord,bord));
-        auteur.setFont(new Font("Comic Sans",0,12));
+        auteur.setFont(new Font("Comic Sans", Font.PLAIN,12));
         auteur.setForeground(Color.lightGray);
         JLabel image = ImageURL(album);
 
@@ -378,9 +376,8 @@ public class Montrage extends JPanel implements ActionListener {
         Border margin2 = new EmptyBorder(10, 15, 5, 1);
         Border compound1 = new CompoundBorder(margin2, margin2);
         Montrage.setBorder(compound1);
-        JScrollPane scroll = new JScrollPane(Montrage,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        return scroll;
+        return new JScrollPane(Montrage,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
     /**
@@ -497,11 +494,7 @@ public class Montrage extends JPanel implements ActionListener {
         voulu.clear();
         voulu = Filtrage(recherche);
         recherche_active = true;
-        if(voulu.size() == 0)
-            recherche_vide = true;
-        else{
-            recherche_vide = false;
-        }
+        recherche_vide = voulu.size() == 0;
         ChangementPanel(3);
     }
 
@@ -544,7 +537,7 @@ public class Montrage extends JPanel implements ActionListener {
      */
     public void Modifier(Album album){
         for (int i = 0; i < biblio.getTabalbum().size(); i++) {
-            if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() /*&& temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()*/) {
+            if (temp.getNom().equals(biblio.getTabalbum().elementAt(i).getNom()) && temp.getArtiste().equals(biblio.getTabalbum().elementAt(i).getArtiste())) {
                 biblio.getTabalbum().set(i, album);
                 biblio.modifierAlbum(biblio.getTabalbum().elementAt(i));
             }
@@ -566,14 +559,14 @@ public class Montrage extends JPanel implements ActionListener {
         else
             Retour = biblio.getTabalbum();
 
-        if (choix == "Titre"){
+        if (choix.equals("Titre")){
             Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
         }
-        else if (choix == "Artiste"){
+        else if (choix.equals("Artiste")){
             Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
             Retour.sort(Comparator.comparing(Album::getArtiste,String.CASE_INSENSITIVE_ORDER));
         }
-        else if (choix == "Date"){
+        else if (choix.equals("Date")){
             Retour.sort(Comparator.comparing(Album::getNom,String.CASE_INSENSITIVE_ORDER));
             Retour.sort(Comparator.comparing(Album::getDate,String.CASE_INSENSITIVE_ORDER));
         }
@@ -607,14 +600,14 @@ public class Montrage extends JPanel implements ActionListener {
 
     /**
      * S'actionne en fonction des boutons Supprimer, Modifier ou la combobox de trie
-     * @param e
+     * @param e event
      */
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Supprimer")) {
             if (JOptionPane.showConfirmDialog(Montrage.this, "Désirez-vous supprimer cet album ?")
                     == JOptionPane.YES_OPTION) {
                 for (int i = 0; i < biblio.getTabalbum().size(); i++) {
-                    if (temp.getNom() == biblio.getTabalbum().elementAt(i).getNom() && temp.getArtiste() == biblio.getTabalbum().elementAt(i).getArtiste()) {
+                    if (temp.getNom().equals(biblio.getTabalbum().elementAt(i).getNom()) && temp.getArtiste().equals(biblio.getTabalbum().elementAt(i).getArtiste())) {
                         biblio.supprimeAlbum(biblio.getTabalbum().elementAt(i));
                         biblio.getTabalbum().remove(i);
                     }

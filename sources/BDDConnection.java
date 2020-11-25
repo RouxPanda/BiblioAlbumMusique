@@ -13,7 +13,7 @@ public class BDDConnection {
     /**
      * The Statement.
      */
-    private Statement statement;
+    private final Statement statement;
 
     /**
      * Instantiates a new Bdd connection.

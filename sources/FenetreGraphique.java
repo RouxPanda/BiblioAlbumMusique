@@ -23,11 +23,11 @@ public class FenetreGraphique extends JFrame implements ActionListener {
     /**
      * Le panel central pris par Montrage
      */
-    private JPanel Central;
+    private final JPanel Central;
     /**
      * La Bar de recherche.
      */
-    private JTextField BarRecherche;
+    private final JTextField BarRecherche;
     /**
      * Le bouton Valider.
      */
@@ -35,23 +35,23 @@ public class FenetreGraphique extends JFrame implements ActionListener {
     /**
      * Le bouton Ajouter.
      */
-    private JButton Ajouter;
+    private final JButton Ajouter;
     /**
      * Le bouton Retour.
      */
-    private JButton Retour;
+    private final JButton Retour;
     /**
      * The Panel menu à droite
      */
-    private JPanel PanelMenu;
+    private final JPanel PanelMenu;
     /**
      * The Regroupe.
      */
-    private JPanel Regroupe;
+    private final JPanel Regroupe;
     /**
      * The Pannel recherche en haut
      */
-    private JPanel PannelRecherche;
+    private final JPanel PannelRecherche;
     /**
      * La classe ajouter qui lance une nouvelle fenêtre formulaire pour l'ajout d'album
      */
@@ -59,7 +59,7 @@ public class FenetreGraphique extends JFrame implements ActionListener {
     /**
      * La classe Montrage qui s'occupe de tout l'affichage
      */
-    private Montrage montrage;
+    private final Montrage montrage;
 
 
     /**
