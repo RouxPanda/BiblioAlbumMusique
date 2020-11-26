@@ -1,5 +1,7 @@
 # JavacJulAfon
 Projet étudiant pour les études dans la matière M3105- Conception et programmation objet avancées
+### Groupe :
+TRONC Clément, DI PIAZZA Hugo
 
 # Sujet
 Gestion d'albums de musique
@@ -28,5 +30,8 @@ java -jar JavacJulAfon.jar
 ```
 ### Important 
   **Veillez à garder le fichier MusiqueBDD.bd dans le même dossier que le .jar pour le lancement**
-  
+ 
+ 
+ 
+ 
  > Merci d'avance
