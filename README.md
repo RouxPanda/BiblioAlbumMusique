@@ -26,7 +26,7 @@ Pour éxecuter le projet il suffit de prendre l'entierté du fichier "executable
 ```
 java -jar JavacJulAfon.jar
 ```
-**### Important 
-  Veillez à garder le fichier MusiqueBDD.bd dans le même dossier que le .jar pour le lancement**
+### Important 
+  **Veillez à garder le fichier MusiqueBDD.bd dans le même dossier que le .jar pour le lancement**
   
  > Merci d'avance
