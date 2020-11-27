@@ -50,9 +50,9 @@ public class Bibliotheque {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        for (int i = 0; i < tabalbum.size(); i++) {
-            System.out.println(tabalbum.elementAt(i).getNom());
-        }
+        //for (int i = 0; i < tabalbum.size(); i++) {
+        //    System.out.println(tabalbum.elementAt(i).getNom());
+        //}
     }
 
     /**

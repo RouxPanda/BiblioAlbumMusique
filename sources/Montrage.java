@@ -239,7 +239,7 @@ public class Montrage extends JPanel implements ActionListener {
      * Permet de revenir en arrière dans les onglets et d'avancer les onglets au fur et à mesure pour ne pas surcharger la mémoire
      */
     public void RetourArrière(){
-        System.out.println(principal.getComponentCount());
+        //System.out.println(principal.getComponentCount());
         final CardLayout cl = (CardLayout)(principal.getLayout());
         Trie.setVisible(true);
 
