@@ -613,7 +613,9 @@ public class Montrage extends JPanel implements ActionListener {
                     }
                 }
                 Refresh();
-                RetourArrière();
+                for (int i = 0; i < principal.getComponentCount()+1; i++) {
+                    RetourArrière();
+                }
             }
         }
         else if(e.getActionCommand().equals("Modifier")){
