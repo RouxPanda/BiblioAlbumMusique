@@ -1,4 +1,4 @@
-# JavacJulAfon
+# JBibliothèque de gestion d'albums de musique
 Projet étudiant pour les études dans la matière M3105- Conception et programmation objet avancées
 ### Groupe :
 TRONC Clément, DI PIAZZA Hugo
